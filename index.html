@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Chat Magique 🌙</title>
+
+<style>
+body {
+    margin:0;
+    overflow:hidden;
+    font-family: Arial, sans-serif;
+    transition: background 1s;
+    background: linear-gradient(to bottom, #a6d7ff, #ffd6f6);
+}
+
+/* 🌙 MODE NUIT */
+body.night {
+    background: linear-gradient(to bottom, #05070d, #0b1a2a);
+}
+
+/* étoiles */
+.star {
+    position:absolute;
+    width:2px;height:2px;
+    background:white;
+    border-radius:50%;
+    opacity:0;
+    transition:opacity 1s;
+}
+body.night .star { opacity:1; }
+
+/* lune */
+.moon {
+    position:absolute;
+    top:60px; right:80px;
+    width:80px;height:80px;
+    background:#fff8dc;
+    border-radius:50%;
+    box-shadow:0 0 30px white;
+    opacity:0;
+    transition:1s;
+}
+body.night .moon { opacity:1; }
+
+/* nuages */
+.cloud {
+    position:absolute;
+    width:120px;height:60px;
+    background:rgba(255,255,255,0.5);
+    border-radius:50%;
+    filter:blur(10px);
+    animation:move 40s linear infinite;
+}
+@keyframes move {
+    from {transform:translateX(-150px);}
+    to {transform:translateX(110vw);}
+}
+
+/* bulles */
+.bubble-float {
+    position:absolute;
+    width:20px;height:20px;
+    border-radius:50%;
+    background:rgba(255,255,255,0.3);
+    animation:float 10s linear infinite;
+}
+@keyframes float {
+    from {transform:translateY(100vh);}
+    to {transform:translateY(-10vh);}
+}
+
+/* chat */
+#cat {
+    font-size:60px;
+    cursor:pointer;
+    animation:floatCat 3s ease-in-out infinite;
+}
+@keyframes floatCat {
+    0%,100%{transform:translateY(0);}
+    50%{transform:translateY(-10px);}
+}
+
+/* texte */
+.container {
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    text-align:center;
+    color:white;
+}
+
+.message {
+    margin-top:10px;
+    min-height:20px;
+}
+
+/* bouton slider */
+.toggle {
+    position:absolute;
+    top:20px;
+    right:20px;
+    width:70px;
+    height:35px;
+    background:rgba(255,255,255,0.3);
+    border-radius:30px;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    padding:5px;
+    backdrop-filter:blur(5px);
+}
+
+.ball {
+    width:25px;
+    height:25px;
+    background:white;
+    border-radius:50%;
+    transition:0.4s;
+}
+
+body.night .ball {
+    transform:translateX(35px);
+}
+
+/* bouton son */
+button {
+    margin-top:10px;
+    padding:8px 12px;
+    border:none;
+    border-radius:20px;
+    background:rgba(255,255,255,0.3);
+    color:white;
+    cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div class="toggle" onclick="toggleMode()">
+    <div class="ball"></div>
+</div>
+
+<div class="moon"></div>
+
+<div class="container">
+    <h1>Chat magique 🐱✨</h1>
+    <div id="cat">🐱</div>
+    <div class="message" id="message"></div>
+    <button onclick="toggleSound()">🎶 Son</button>
+</div>
+
+<audio id="sound" loop>
+<source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8b1b7d7c2.mp3">
+</audio>
+
+<script>
+// étoiles
+for(let i=0;i<100;i++){
+    let s=document.createElement("div");
+    s.className="star";
+    s.style.top=Math.random()*window.innerHeight+"px";
+    s.style.left=Math.random()*window.innerWidth+"px";
+    document.body.appendChild(s);
+}
+
+// nuages
+for(let i=0;i<4;i++){
+    let c=document.createElement("div");
+    c.className="cloud";
+    c.style.top=Math.random()*50+"vh";
+    document.body.appendChild(c);
+}
+
+// bulles
+for(let i=0;i<15;i++){
+    let b=document.createElement("div");
+    b.className="bubble-float";
+    b.style.left=Math.random()*100+"vw";
+    b.style.animationDuration=(8+Math.random()*5)+"s";
+    document.body.appendChild(b);
+}
+
+// messages
+const messages=[
+"Je suis là pour toi 🌙",
+"Respire doucement ✨",
+"Tout va bien se passer 💛",
+"Tes pensées sont comme des nuages ☁️",
+"Tu peux ralentir 🫧"
+];
+
+document.getElementById("cat").onclick=()=>{
+    let m=messages[Math.floor(Math.random()*messages.length)];
+    document.getElementById("message").textContent=m;
+};
+
+// son
+let sound=document.getElementById("sound");
+let playing=false;
+function toggleSound(){
+    if(!playing){sound.play();playing=true;}
+    else{sound.pause();playing=false;}
+}
+
+// mode jour/nuit bouton
+function toggleMode(){
+    document.body.classList.toggle("night");
+}
+
+// mode auto selon heure
+let hour=new Date().getHours();
+if(hour>=19 || hour<=6){
+    document.body.classList.add("night");
+}
+</script>
+
+</body>
+</html>
