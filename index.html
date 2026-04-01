@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>Chat Magique 🌙</title>
+<title>Chat noir magique 🌙</title>
 
 <style>
 body {
@@ -13,7 +13,7 @@ body {
     background: linear-gradient(to bottom, #a6d7ff, #ffd6f6);
 }
 
-/* 🌙 MODE NUIT */
+/* MODE NUIT */
 body.night {
     background: linear-gradient(to bottom, #05070d, #0b1a2a);
 }
@@ -57,7 +57,7 @@ body.night .moon { opacity:1; }
 }
 
 /* bulles */
-.bubble-float {
+.bubble {
     position:absolute;
     width:20px;height:20px;
     border-radius:50%;
@@ -80,7 +80,7 @@ body.night .moon { opacity:1; }
     50%{transform:translateY(-10px);}
 }
 
-/* texte */
+/* container */
 .container {
     position:absolute;
     top:50%;
@@ -90,12 +90,7 @@ body.night .moon { opacity:1; }
     color:white;
 }
 
-.message {
-    margin-top:10px;
-    min-height:20px;
-}
-
-/* bouton slider */
+/* bouton toggle */
 .toggle {
     position:absolute;
     top:20px;
@@ -110,7 +105,6 @@ body.night .moon { opacity:1; }
     padding:5px;
     backdrop-filter:blur(5px);
 }
-
 .ball {
     width:25px;
     height:25px;
@@ -118,12 +112,10 @@ body.night .moon { opacity:1; }
     border-radius:50%;
     transition:0.4s;
 }
-
 body.night .ball {
     transform:translateX(35px);
 }
 
-/* bouton son */
 button {
     margin-top:10px;
     padding:8px 12px;
@@ -145,9 +137,9 @@ button {
 <div class="moon"></div>
 
 <div class="container">
-    <h1>Chat magique 🐱✨</h1>
+    <h1>Chat noir magique 🐱✨</h1>
     <div id="cat">🐱</div>
-    <div class="message" id="message"></div>
+    <div id="message"></div>
     <button onclick="toggleSound()">🎶 Son</button>
 </div>
 
@@ -157,11 +149,11 @@ button {
 
 <script>
 // étoiles
-for(let i=0;i<100;i++){
+for(let i=0;i<80;i++){
     let s=document.createElement("div");
     s.className="star";
-    s.style.top=Math.random()*window.innerHeight+"px";
-    s.style.left=Math.random()*window.innerWidth+"px";
+    s.style.top=Math.random()*100+"vh";
+    s.style.left=Math.random()*100+"vw";
     document.body.appendChild(s);
 }
 
@@ -176,7 +168,7 @@ for(let i=0;i<4;i++){
 // bulles
 for(let i=0;i<15;i++){
     let b=document.createElement("div");
-    b.className="bubble-float";
+    b.className="bubble";
     b.style.left=Math.random()*100+"vw";
     b.style.animationDuration=(8+Math.random()*5)+"s";
     document.body.appendChild(b);
@@ -187,7 +179,7 @@ const messages=[
 "Je suis là pour toi 🌙",
 "Respire doucement ✨",
 "Tout va bien se passer 💛",
-"Tes pensées sont comme des nuages ☁️",
+"Tes pensées passent comme les nuages ☁️",
 "Tu peux ralentir 🫧"
 ];
 
@@ -204,12 +196,12 @@ function toggleSound(){
     else{sound.pause();playing=false;}
 }
 
-// mode jour/nuit bouton
+// mode jour/nuit
 function toggleMode(){
     document.body.classList.toggle("night");
 }
 
-// mode auto selon heure
+// automatique
 let hour=new Date().getHours();
 if(hour>=19 || hour<=6){
     document.body.classList.add("night");
